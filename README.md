@@ -1,4 +1,5 @@
 jquery.dialog
 =============
 
-define dialog base jquery
+define dialog base jquery(alert confirm and window)
+
