@@ -4,38 +4,10 @@
     <title>自定义对话框</title>
     <link type="text/css" rel="Stylesheet" href="css/jquery.dialog.css" />
     <link type="text/css" rel="Stylesheet" href="css/home_common_all.css" />
-    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <!--异步加载主函数 IE不支持async 只支持defer-->
+    <script type="text/javascript" data-main="js/main" defer async="true"  src="js/require.js"></script>
 </head>
 <body>
-    <script type="text/javascript" src="js/jquery.dialog.js"></script>
-    <script type="text/javascript">
-        //定义对话框对象
-        var alertX = null;
-        //定义确认框对象
-        var confirmX = null;
-        //定义窗口对象
-        var windowX = null;
-        $(function () {
-            alertX = $.dialog.alert;
-            confirmX = $.dialog.confirm;
-            windowX = $.dialog.window;
-            $('#alertXX').bind('click', function () {
-                alertX("提示信息", "这是自定义对话框", function () {
-                    $.dialog.alert("提示信息", "关闭了");
-                });
-            });
-            $('#confirmXX').bind('click', function () {
-                confirmX("确认操作?", "确认操作", function () {
-                    $.dialog.alert("提示信息", "确认了");
-                });
-            });
-            $('#windowXX').bind('click', function () {
-                windowX("窗口标题", "demo.htm", "0", function () {
-                    $.dialog.alert("提示信息", "保存了");
-                });
-            });
-        });
-    </script>
     <input type="button" value="alert" id="alertXX" />
     <input type="button" value="confirm" id="confirmXX" />
     <input type="button" value="window" id="windowXX" />
