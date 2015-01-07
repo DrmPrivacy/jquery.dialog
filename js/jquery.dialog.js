@@ -8,35 +8,38 @@
         iconCls: 'add',
         mainFrame: '',
         subForm: '',
-        alert: function (title, message, callback) {
+        alert: function (title, message,  ishowbtn, callback) {
             if (title == '' || title == null) {
                 title = "标题"
             }
-            $.dialog._show(title, message, null, 'alert',
+            $.dialog._show(title, message, null, 'alert', ishowbtn,
 			function (result) {
 			    if (callback) callback(result)
 			});
-        },
-        confirm: function (title, message, callback) {
+        }, confirm: function (title, message, ishowbtn, callback) {
             if (title == '' || title == null) {
                 title = "标题"
             }
-            $.dialog._show(title, message, null, 'confirm',
+            $.dialog._show(title, message, null, 'confirm',ishowbtn,
 			function (result) {
 			    if (callback) callback(result)
 			})
         },
-        window: function (title, message, value, callback) {
+        window: function (title, message, value, ishowbtn=false, callback) {
             if (title == '' || title == null) {
                 title = "提示窗口"
             }
 
-            $.dialog._show(title, message, value, 'window',
+            $.dialog._show(title, message, value, 'window',ishowbtn,
 			function (result) {
 			    if (callback) callback(result)
 			});
         },
-        _show: function (title, msg, value, type, callback) {
+        _show: function (title, msg, value, type, ishowbtn, callback) {
+            
+            if (ishowbtn == null) {
+                ishowbtn = false;
+            }
             var id = null;
             //$("body").append('<div id="popup_container" style="width: ' + $.dialog.width + ';height:' + $.dialog.height + ';top:' + $.dialog.top + ';left:' + $.dialog.left + '; margin: auto; overflow: hidden; position: absolute; left: 300px; z-index: 100000; border: 1px solid rgb(234, 234, 234); background: none repeat scroll 0% 0% rgb(255, 255, 255);">' + '<h1 id="popup_title" class="popup_title"><div style="float:left;color:#eaeaea;width:16px;height:16px; margin: 10px 5px;" class="' + $.dialog.iconCls + '"></div><div class="popup_title_c" style="margin: auto; width: 90%;cursor:move;">' + title + '</div><div style="float:right;position: absolute;right: 0px;top:0px;padding:0px 8px;cursor:pointer"><span onclick="$.dialog._hide();">X</span></div></h1>' + '<div id="popup_content" style="height:75%;">' + msg + '</div>' + '<div id="popup_message"></div>' + '</div>');
             var max = 0;
@@ -45,15 +48,19 @@
                     id = "popup_close_alert";
                     $.dialog._overlay('show', "overflow_alert");
                     max = $.dialog._getCurrentZIndex();
-                    $("body").append('<div id="popup_container_alert" class="modal-content" style="width: ' + $.dialog.width + ';height:' + $.dialog.height + ';top:' + $.dialog.top + ';left:' + $.dialog.left + '; margin: auto; overflow: hidden; position: absolute;_position:absolute; left: 300px; z-index: ' + max + '; border: 1px solid rgb(234, 234, 234); background: none repeat scroll 0% 0% rgb(255, 255, 255);">' + '<h1  class="popup_title modal-header" style="padding: 0 0 10px; font-size:21px;"><div style="float:left;color:#eaeaea;width:16px;height:16px; margin: 10px 5px;" class="' + $.dialog.iconCls + '"></div><div class="popup_title_c" style="margin: auto; width: 90%;cursor:move;">' + title + '<span onclick="$.dialog._hide(\'popup_container_alert\', \'overflow_alert\')" style="float:right">X</span></div></h1>' + '<div id="popup_content_alert" class="modal-body" style="height:75%;" style="padding: 5px 0 15px 5px;">' + msg + '</div>' + '<div id="popup_message_alert"></div>' + '</div>');
-                    $("#popup_message_alert").after('<div id="popup_panel_alert" class="modal-footer"><input type="button" value="关闭" id="popup_close_alert" class="btn btn-danger"/></div>');
+                    $("body").append('<div id="popup_container_alert" class="modal-content" style="width: ' + $.dialog.width + ';height:' + $.dialog.height + ';top:' + $.dialog.top + ';left:' + $.dialog.left + '; margin: auto; overflow: hidden; position: absolute;_position:absolute; left: 300px; z-index: ' + max + '; border: 1px solid rgb(234, 234, 234); background: none repeat scroll 0% 0% rgb(255, 255, 255);min-width:300px;">' + '<h1  class="popup_title modal-header" style="padding: 0 0 10px; font-size:21px;"><div style="float:left;color:#eaeaea;width:16px;height:16px; margin: 10px 5px;" class="' + $.dialog.iconCls + '"></div><div class="popup_title_c" style="margin: auto; width: 90%;cursor:move;">' + title + '<span onclick="$.dialog._hide(\'popup_container_alert\', \'overflow_alert\')" style="float:right">X</span></div></h1>' + '<div id="popup_content_alert" class="modal-body" style="height:75%;" style="padding: 5px 0 15px 5px;">' + msg + '</div>' + '<div id="popup_message_alert"></div>' + '</div>');
+                    if (ishowbtn) {
+                        $("#popup_message_alert").after('<div id="popup_panel_alert" class="modal-footer"><input type="button" value="确定" id="popup_close_alert" class="btn btn-danger"/></div>');
+                    }
                     break;
                 case 'confirm':
                     id = "popup_ok_confirm";
                     $.dialog._overlay('show', "overflow_confirm");
                     max = $.dialog._getCurrentZIndex();
-                    $("body").append('<div id="popup_container_confirm" class="modal-content" style="width: ' + $.dialog.width + ';height:' + $.dialog.height + ';top:' + $.dialog.top + ';left:' + $.dialog.left + '; margin: auto; overflow: hidden; position: absolute; _position:absolute;left: 300px; z-index: ' + max + '; border: 1px solid rgb(234, 234, 234); background: none repeat scroll 0% 0% rgb(255, 255, 255);">' + '<h1 class="popup_title modal-header" style="padding: 0 0 10px; font-size:21px;"><div style="float:left;color:#eaeaea;width:16px;height:16px; margin: 10px 5px;" class="' + $.dialog.iconCls + '"></div><div class="popup_title_c" style="margin: auto; width: 90%;cursor:move;">' + title + '<span onclick="$.dialog._hide(\'popup_container_confirm\', \'overflow_confirm\')" style="float:right">X</span></div></h1>' + '<div id="popup_content_confirm" class="modal-body" style="height:75%;">' + msg + '</div>' + '<div id="popup_message_confirm"></div>' + '</div>');
-                    $("#popup_message_confirm").after('<div id="popup_panel_confirm" class="modal-footer"><input type="button" value="确定" class="btn btn-default" id="popup_ok_confirm" /><input type="button" value="取消" class="btn btn-danger" id="popup_cancel_confirm" /></div>');
+                    $("body").append('<div id="popup_container_confirm" class="modal-content" style="width: ' + $.dialog.width + ';height:' + $.dialog.height + ';top:' + $.dialog.top + ';left:' + $.dialog.left + '; margin: auto; overflow: hidden; position: absolute; _position:absolute;left: 300px; z-index: ' + max + '; border: 1px solid rgb(234, 234, 234); background: none repeat scroll 0% 0% rgb(255, 255, 255);min-width:300px;">' + '<h1 class="popup_title modal-header" style="padding: 0 0 10px; font-size:21px;"><div style="float:left;color:#eaeaea;width:16px;height:16px; margin: 10px 5px;" class="' + $.dialog.iconCls + '"></div><div class="popup_title_c" style="margin: auto; width: 90%;cursor:move;">' + title + '<span onclick="$.dialog._hide(\'popup_container_confirm\', \'overflow_confirm\')" style="float:right">X</span></div></h1>' + '<div id="popup_content_confirm" class="modal-body" style="height:75%;">' + msg + '</div>' + '<div id="popup_message_confirm"></div>' + '</div>');
+                    if (ishowbtn) {
+                        $("#popup_message_confirm").after('<div id="popup_panel_confirm" class="modal-footer"><input type="button" value="确定" class="btn btn-default" id="popup_ok_confirm" /><input type="button" value="取消" class="btn btn-danger" id="popup_cancel_confirm" /></div>');
+                    }
                     break;
                 case 'window':
                     id = "popup_ok_window";
@@ -89,7 +96,7 @@
                                 $(this).height(0); //用于每次刷新时控制IFRAME高度初始化
                                 var height = $(this).contents().height() + 10;
                                 var width = $(this).contents().width() + 50;
-                                
+
                                 $(this).height(height < 100 ? 100 : height);
                                 $(this).width(width < 300 ? 300 : width);
                             });
@@ -99,7 +106,9 @@
                             $('#popup_content_window').append(msg);
                             break
                     }
-                    $("#popup_message_window").after('<div id="popup_panel_window" class="modal-footer"><input type="button" value="保存" id="popup_ok_window" class="btn btn-primary"/><input type="button" value="关闭" id="popup_cancel_window" class="btn btn-danger"/></div>');
+                    if (ishowbtn) {
+                        $("#popup_message_window").after('<div id="popup_panel_window" class="modal-footer"><input type="button" value="保存" id="popup_ok_window" class="btn btn-primary"/><input type="button" value="关闭" id="popup_cancel_window" class="btn btn-danger"/></div>');
+                    }
                     break;
             }
             //关闭对话框
