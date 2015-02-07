@@ -6,17 +6,21 @@
         var confirmX = null;
         //定义窗口对象
         var windowX = null;
-        alertX = jQuery.dialog.alert;
-        confirmX = jQuery.dialog.confirm;
-        windowX = jQuery.dialog.window;
+        alertX = $.dialog.alert;
+        confirmX = $.dialog.confirm;
+        windowX = $.dialog.window;
 　　　　var alertW = function () {
-                alertX("提示信息", "这是自定义对话框", function () {
-                    $.dialog.alert("提示信息", "关闭了");
+                alertX("提示信息", "这是自定义对话框", true,function () {
+                    $.dialog.alert("提示信息", "关闭了",true,function(){
+                       $.dialog.alert("提示信息", "关闭了");
+                    });
                 });
         };
         var confirmW = function () {
-                confirmX("提示信息", "这是自定义对话框", function () {
-                    $.dialog.alert("提示信息", "确认了");
+                confirmX("提示信息", "这是自定义对话框",true, function () {
+                    $.dialog.alert("提示信息", "确认了",true, function(){
+                        alert("111");
+                    });
                 });
         };
         var windowW = function () {
